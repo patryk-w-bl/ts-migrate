@@ -25,6 +25,7 @@ export {
   declareMissingClassPropertiesPlugin,
   eslintFixPlugin,
   explicitAnyPlugin,
+
   hoistClassStaticsPlugin,
   jsDocPlugin,
   memberAccessibilityPlugin,
