@@ -43,7 +43,6 @@ const availablePlugins = [
   tsIgnorePlugin,
 ];
 
-
 // eslint-disable-next-line no-unused-expressions
 yargs
   .scriptName('npm run ts-migrate --')
