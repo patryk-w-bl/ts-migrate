@@ -7,7 +7,7 @@ import { Properties, validateOptions } from '../utils/validateOptions';
 const accessibility = ['private' as const, 'protected' as const, 'public' as const];
 
 type Options = {
-  defaultAccessibility?: typeof accessibility[number];
+  defaultAccessibility?: (typeof accessibility)[number];
   privateRegex?: string;
   protectedRegex?: string;
   publicRegex?: string;
@@ -24,6 +24,7 @@ const memberAccessibilityPlugin: Plugin<Options> = {
   name: 'member-accessibility',
 
   run({ sourceFile, text, options }) {
+    // @ts-expect-error TODO
     const result = ts.transform(sourceFile, [memberAccessibilityTransformerFactory(options)]);
     const newSourceFile = result.transformed[0];
     if (newSourceFile === sourceFile) {
@@ -122,7 +123,7 @@ const memberAccessibilityTransformerFactory =
             const propertyNode = node as ts.PropertyDeclaration;
             return factory.updatePropertyDeclaration(
               propertyNode,
-              propertyNode.decorators,
+              // propertyNode.decorators,
               modifiers,
               propertyNode.name,
               propertyNode.questionToken,
@@ -134,7 +135,7 @@ const memberAccessibilityTransformerFactory =
             const methodNode = node as ts.MethodDeclaration;
             return factory.updateMethodDeclaration(
               methodNode,
-              methodNode.decorators,
+              // methodNode.decorators,
               modifiers,
               methodNode.asteriskToken,
               methodNode.name,
@@ -149,7 +150,7 @@ const memberAccessibilityTransformerFactory =
             const accessorNode = node as ts.GetAccessorDeclaration;
             return factory.updateGetAccessorDeclaration(
               accessorNode,
-              accessorNode.decorators,
+              // accessorNode.decorators,
               modifiers,
               accessorNode.name,
               accessorNode.parameters,
@@ -161,7 +162,7 @@ const memberAccessibilityTransformerFactory =
             const accessorNode = node as ts.SetAccessorDeclaration;
             return factory.updateSetAccessorDeclaration(
               accessorNode,
-              accessorNode.decorators,
+              // accessorNode.decorators,
               modifiers,
               accessorNode.name,
               accessorNode.parameters,

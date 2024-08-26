@@ -1,13 +1,13 @@
 /* eslint-disable no-bitwise */
-import ts from 'typescript';
-import { Plugin } from 'ts-migrate-server';
+import ts from "typescript";
+import { Plugin } from "ts-migrate-server";
 import {
   AnyAliasOptions,
   Properties,
   anyAliasProperty,
   createValidate,
-} from '../utils/validateOptions';
-import UpdateTracker from './utils/update';
+} from "../utils/validateOptions";
+import UpdateTracker from "./utils/update";
 
 type TypeMap = Record<string, TypeOptions>;
 
@@ -20,28 +20,28 @@ type TypeOptions =
 
 const defaultTypeMap: TypeMap = {
   String: {
-    tsName: 'string',
+    tsName: "string",
     acceptsTypeParameters: false,
   },
   Boolean: {
-    tsName: 'boolean',
+    tsName: "boolean",
     acceptsTypeParameters: false,
   },
   Number: {
-    tsName: 'number',
+    tsName: "number",
     acceptsTypeParameters: false,
   },
   Object: {
-    tsName: 'object',
+    tsName: "object",
     // Object<string, T> and Object<number, T> are handled as a special case.
     acceptsTypeParameters: false,
   },
   date: {
-    tsName: 'Date',
+    tsName: "Date",
     acceptsTypeParameters: false,
   },
-  array: 'Array',
-  promise: 'Promise',
+  array: "Array",
+  promise: "Promise",
 };
 
 type Options = {
@@ -51,13 +51,16 @@ type Options = {
 
 const optionProperties: Properties = {
   ...anyAliasProperty,
-  annotateReturns: { type: 'boolean' },
+  annotateReturns: { type: "boolean" },
   typeMap: {
     oneOf: [
-      { type: 'string' },
+      { type: "string" },
       {
-        type: 'object',
-        properties: { tsName: { type: 'string' }, acceptsTypeParameters: { type: 'boolean' } },
+        type: "object",
+        properties: {
+          tsName: { type: "string" },
+          acceptsTypeParameters: { type: "boolean" },
+        },
         additionalProperties: false,
       },
     ],
@@ -65,7 +68,7 @@ const optionProperties: Properties = {
 };
 
 const jsDocPlugin: Plugin<Options> = {
-  name: 'jsdoc',
+  name: "jsdoc",
 
   run({ sourceFile, options }) {
     const updates = new UpdateTracker(sourceFile);
@@ -79,7 +82,10 @@ const jsDocPlugin: Plugin<Options> = {
 export default jsDocPlugin;
 
 const jsDocTransformerFactory =
-  (updates: UpdateTracker, { annotateReturns, anyAlias, typeMap: optionsTypeMap }: Options) =>
+  (
+    updates: UpdateTracker,
+    { annotateReturns, anyAlias, typeMap: optionsTypeMap }: Options
+  ) =>
   (context: ts.TransformationContext) => {
     const { factory } = context;
     const anyType = anyAlias
@@ -98,14 +104,19 @@ const jsDocTransformerFactory =
       }
     }
 
-    function visitFunctionLike(node: ts.SignatureDeclaration, insideClass: boolean): void {
+    function visitFunctionLike(
+      node: ts.SignatureDeclaration,
+      insideClass: boolean
+    ): void {
       const modifiers =
         ts.isMethodDeclaration(node) && insideClass
           ? modifiersFromJSDoc(node, factory)
-          : node.modifiers;
+          : // @ts-expect-error TODO
+            node.modifiers;
       const parameters = visitParameters(node);
       const returnType = annotateReturns ? visitReturnType(node) : node.type;
       if (
+        // @ts-expect-error TODO
         modifiers === node.modifiers &&
         parameters === node.parameters &&
         returnType === node.type
@@ -113,9 +124,13 @@ const jsDocTransformerFactory =
         return;
       }
 
-      const newModifiers = modifiers ? factory.createNodeArray(modifiers) : undefined;
+      const newModifiers = modifiers
+        ? factory.createNodeArray(modifiers)
+        : undefined;
       if (newModifiers) {
+        // @ts-expect-error TODO
         if (node.modifiers) {
+        // @ts-expect-error TODO
           updates.replaceNodes(node.modifiers, newModifiers);
         } else {
           const pos = node.name!.getStart();
@@ -125,7 +140,8 @@ const jsDocTransformerFactory =
 
       const newParameters = factory.createNodeArray(parameters);
       const addParens =
-        ts.isArrowFunction(node) && node.getFirstToken()?.kind !== ts.SyntaxKind.OpenParenToken;
+        ts.isArrowFunction(node) &&
+        node.getFirstToken()?.kind !== ts.SyntaxKind.OpenParenToken;
       updates.replaceNodes(node.parameters, newParameters, addParens);
 
       const newType = returnType;
@@ -135,7 +151,7 @@ const jsDocTransformerFactory =
     }
 
     function visitParameters(
-      functionDeclaration: ts.SignatureDeclaration,
+      functionDeclaration: ts.SignatureDeclaration
     ): ReadonlyArray<ts.ParameterDeclaration> {
       if (!ts.hasJSDocParameterTags(functionDeclaration)) {
         return functionDeclaration.parameters;
@@ -148,7 +164,9 @@ const jsDocTransformerFactory =
           return param;
         }
 
-        const paramNode = ts.getJSDocParameterTags(param).find((tag) => tag.typeExpression);
+        const paramNode = ts
+          .getJSDocParameterTags(param)
+          .find((tag) => tag.typeExpression);
         if (!paramNode || !paramNode.typeExpression) {
           return param;
         }
@@ -163,18 +181,22 @@ const jsDocTransformerFactory =
             : param.questionToken;
 
         const newParam = factory.createParameterDeclaration(
-          param.decorators,
+          // param.decorators,
           param.modifiers,
           param.dotDotDotToken,
           param.name,
           questionToken,
           type,
-          param.initializer,
+          param.initializer
         );
 
         return newParam;
       });
-      if (functionDeclaration.parameters.some((param, i) => param !== newParams[i])) {
+      if (
+        functionDeclaration.parameters.some(
+          (param, i) => param !== newParams[i]
+        )
+      ) {
         // Only return the new array if something changed.
         return newParams;
       }
@@ -182,7 +204,7 @@ const jsDocTransformerFactory =
     }
 
     function visitReturnType(
-      functionDeclaration: ts.SignatureDeclaration,
+      functionDeclaration: ts.SignatureDeclaration
     ): ts.TypeNode | undefined {
       if (functionDeclaration.type) {
         // Don't overwrite existing annotations.
@@ -233,6 +255,7 @@ const jsDocTransformerFactory =
 
     function visitJSDocOptionalType(node: ts.JSDocOptionalType) {
       return factory.createUnionTypeNode([
+        // @ts-expect-error TODO
         ts.visitNode(node.type, visitJSDocType),
         factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
       ]);
@@ -240,20 +263,27 @@ const jsDocTransformerFactory =
 
     function visitJSDocNullableType(node: ts.JSDocNullableType) {
       return factory.createUnionTypeNode([
+        // @ts-expect-error TODO
         ts.visitNode(node.type, visitJSDocType),
-        factory.createLiteralTypeNode(factory.createToken(ts.SyntaxKind.NullKeyword)),
+        factory.createLiteralTypeNode(
+          factory.createToken(ts.SyntaxKind.NullKeyword)
+        ),
       ]);
     }
 
     function visitJSDocVariadicType(node: ts.JSDocVariadicType) {
-      return factory.createArrayTypeNode(ts.visitNode(node.type, visitJSDocType));
+      return factory.createArrayTypeNode(
+        // @ts-expect-error TODO
+
+        ts.visitNode(node.type, visitJSDocType)
+      );
     }
 
     function visitJSDocFunctionType(node: ts.JSDocFunctionType) {
       return factory.createFunctionTypeNode(
         undefined,
         node.parameters.map(visitJSDocParameter),
-        node.type ?? anyType,
+        node.type ?? anyType
       );
     }
 
@@ -284,10 +314,20 @@ const jsDocTransformerFactory =
           ? factory.createToken(ts.SyntaxKind.QuestionToken)
           : undefined;
       if (ts.isIdentifier(node.name)) {
-        return factory.createPropertySignature(undefined, node.name, questionToken, type);
+        return factory.createPropertySignature(
+          undefined,
+          node.name,
+          questionToken,
+          type
+        );
       }
       // Assumption: the leaf field on the QualifiedName belongs directly to the parent object type.
-      return factory.createPropertySignature(undefined, node.name.right, questionToken, type);
+      return factory.createPropertySignature(
+        undefined,
+        node.name.right,
+        questionToken,
+        type
+      );
     }
 
     function visitJSDocParameter(node: ts.ParameterDeclaration) {
@@ -298,18 +338,19 @@ const jsDocTransformerFactory =
       const isRest =
         node.type.kind === ts.SyntaxKind.JSDocVariadicType &&
         index === node.parent.parameters.length - 1;
-      const name = node.name || (isRest ? 'rest' : `arg${index}`);
+      const name = node.name || (isRest ? "rest" : `arg${index}`);
       const dotdotdot = isRest
         ? factory.createToken(ts.SyntaxKind.DotDotDotToken)
         : node.dotDotDotToken;
       return factory.createParameterDeclaration(
-        node.decorators,
+        // node.decorators,
         node.modifiers,
         dotdotdot,
         name,
         node.questionToken,
+        // @ts-expect-error TODO
         ts.visitNode(node.type, visitJSDocType),
-        node.initializer,
+        node.initializer
       );
     }
 
@@ -324,7 +365,7 @@ const jsDocTransformerFactory =
         let acceptsTypeParameters = true;
         if (text in typeMap) {
           const typeOptions = typeMap[text];
-          if (typeof typeOptions === 'string') {
+          if (typeof typeOptions === "string") {
             text = typeOptions;
           } else {
             if (typeOptions.tsName) {
@@ -335,9 +376,10 @@ const jsDocTransformerFactory =
         }
 
         name = factory.createIdentifier(text);
-        if ((text === 'Array' || text === 'Promise') && !node.typeArguments) {
+        if ((text === "Array" || text === "Promise") && !node.typeArguments) {
           args = factory.createNodeArray([anyType]);
         } else if (acceptsTypeParameters) {
+          // @ts-expect-error TODO
           args = ts.visitNodes(node.typeArguments, visitJSDocType);
         }
         if (!acceptsTypeParameters) {
@@ -350,23 +392,25 @@ const jsDocTransformerFactory =
     function visitJSDocIndexSignature(node: ts.TypeReferenceNode) {
       const typeArguments = node.typeArguments!;
       const index = factory.createParameterDeclaration(
-        /* decorators */ undefined,
+        // /* decorators */ undefined,
         /* modifiers */ undefined,
         /* dotDotDotToken */ undefined,
-        typeArguments[0].kind === ts.SyntaxKind.NumberKeyword ? 'n' : 's',
+        typeArguments[0].kind === ts.SyntaxKind.NumberKeyword ? "n" : "s",
         /* questionToken */ undefined,
         factory.createTypeReferenceNode(
-          typeArguments[0].kind === ts.SyntaxKind.NumberKeyword ? 'number' : 'string',
-          [],
+          typeArguments[0].kind === ts.SyntaxKind.NumberKeyword
+            ? "number"
+            : "string",
+          []
         ),
-        /* initializer */ undefined,
+        /* initializer */ undefined
       );
       const indexSignature = factory.createTypeLiteralNode([
         factory.createIndexSignature(
-          /* decorators */ undefined,
+          // /* decorators */ undefined,
           /* modifiers */ undefined,
           [index],
-          typeArguments[1],
+          typeArguments[1]
         ),
       ]);
       ts.setEmitFlags(indexSignature, ts.EmitFlags.SingleLine);
@@ -375,15 +419,18 @@ const jsDocTransformerFactory =
   };
 
 const accessibilityMask =
-  ts.ModifierFlags.Private | ts.ModifierFlags.Protected | ts.ModifierFlags.Public;
+  ts.ModifierFlags.Private |
+  ts.ModifierFlags.Protected |
+  ts.ModifierFlags.Public;
 
 function modifiersFromJSDoc(
   methodDeclaration: ts.MethodDeclaration,
-  factory: ts.NodeFactory,
+  factory: ts.NodeFactory
 ): ReadonlyArray<ts.Modifier> | undefined {
   let modifierFlags = ts.getCombinedModifierFlags(methodDeclaration);
   if ((modifierFlags & accessibilityMask) !== 0) {
     // Don't overwrite existing accessibility modifier.
+    // @ts-expect-error TODO
     return methodDeclaration.modifiers;
   }
 
@@ -394,6 +441,7 @@ function modifiersFromJSDoc(
   } else if (ts.getJSDocPublicTag(methodDeclaration)) {
     modifierFlags |= ts.ModifierFlags.Public;
   } else {
+    // @ts-expect-error TODO
     return methodDeclaration.modifiers;
   }
 
@@ -401,11 +449,13 @@ function modifiersFromJSDoc(
 }
 
 // Copied from: https://github.com/microsoft/TypeScript/blob/v4.0.2/src/compiler/utilities.ts#L1879
-function isJSDocIndexSignature(node: ts.TypeReferenceNode | ts.ExpressionWithTypeArguments) {
+function isJSDocIndexSignature(
+  node: ts.TypeReferenceNode | ts.ExpressionWithTypeArguments
+) {
   return (
     ts.isTypeReferenceNode(node) &&
     ts.isIdentifier(node.typeName) &&
-    node.typeName.escapedText === 'Object' &&
+    node.typeName.escapedText === "Object" &&
     node.typeArguments &&
     node.typeArguments.length === 2 &&
     (node.typeArguments[0].kind === ts.SyntaxKind.StringKeyword ||

@@ -182,7 +182,8 @@ export function updateImports(
       if (numImports > 0) {
         const upImpDec = ts.factory.updateImportDeclaration(
           importDeclaration,
-          importDeclaration.decorators,
+
+          // importDeclaration.decorators,
           importDeclaration.modifiers,
           importClause,
           importDeclaration.moduleSpecifier,
@@ -239,7 +240,7 @@ export function updateImports(
       if (nameToAdd.length <= 1) {
         nodes.push(
           ts.factory.createImportDeclaration(
-            undefined,
+            // undefined,
             undefined,
             ts.factory.createImportClause(
               false,
@@ -254,7 +255,7 @@ export function updateImports(
       } else {
         nodes.push(
           ts.factory.createImportDeclaration(
-            undefined,
+            // undefined,
             undefined,
             ts.factory.createImportClause(false, undefined, namedImports),
             ts.factory.createStringLiteral(moduleSpecifier),
@@ -263,7 +264,7 @@ export function updateImports(
         nameToAdd.forEach((cur) => {
           nodes.push(
             ts.factory.createImportDeclaration(
-              undefined,
+              // undefined,
               undefined,
               ts.factory.createImportClause(
                 false,

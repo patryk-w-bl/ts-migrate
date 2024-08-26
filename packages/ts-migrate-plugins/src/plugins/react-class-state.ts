@@ -64,7 +64,7 @@ const reactClassStatePlugin: Plugin<Options> = {
             ? ts.factory.createTypeReferenceNode(options.anyAlias, undefined)
             : ts.factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword);
         const newStateType = ts.factory.createTypeAliasDeclaration(
-          undefined,
+          // undefined,
           undefined,
           stateTypeName,
           undefined,

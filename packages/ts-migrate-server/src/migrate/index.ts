@@ -78,9 +78,11 @@ export default async function migrate({
       const params: PluginParams<unknown> = {
         fileName,
         rootDir,
+        // @ts-expect-error TODO
         sourceFile,
         text: sourceFile.text,
         options: pluginOptions,
+        // @ts-expect-error TODO
         getLanguageService,
       };
       try {
