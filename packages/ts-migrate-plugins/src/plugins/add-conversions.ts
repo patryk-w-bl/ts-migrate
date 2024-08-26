@@ -80,6 +80,7 @@ const addConversionsTransformerFactory =
       );
 
       const needsConversion = nodesToConvert.has(origNode);
+
       let node = ts.visitEachChild(origNode, visit, context);
       if (node === origNode && !needsConversion) {
         return origNode;
