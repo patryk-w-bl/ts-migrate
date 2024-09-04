@@ -8,7 +8,7 @@ import jsDocPlugin from './plugins/jsdoc';
 import memberAccessibilityPlugin from './plugins/member-accessibility';
 import reactClassLifecycleMethodsPlugin from './plugins/react-class-lifecycle-methods';
 import reactClassStatePlugin from './plugins/react-class-state';
-import reactDefaultPropsPlugin from './plugins/react-default-props';
+// import reactDefaultPropsPlugin from './plugins/react-default-props';
 import reactPropsPlugin from './plugins/react-props';
 import reactShapePlugin from './plugins/react-shape';
 import stripTSIgnorePlugin from './plugins/strip-ts-ignore';
@@ -30,7 +30,7 @@ export {
   memberAccessibilityPlugin,
   reactClassLifecycleMethodsPlugin,
   reactClassStatePlugin,
-  reactDefaultPropsPlugin,
+  // reactDefaultPropsPlugin,
   reactPropsPlugin,
   reactShapePlugin,
   stripTSIgnorePlugin,
