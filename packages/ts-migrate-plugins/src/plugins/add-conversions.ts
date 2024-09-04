@@ -14,9 +14,9 @@ const supportedDiagnostics = new Set([
   2571,
 ]);
 
+//
 const addConversionsPlugin: Plugin<Options> = {
   name: 'add-conversions',
-
   run({ fileName, sourceFile, options, getLanguageService }) {
     // Filter out diagnostics we care about.
     const diags = getLanguageService()
