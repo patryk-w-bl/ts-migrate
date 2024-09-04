@@ -15,7 +15,7 @@ import {
   memberAccessibilityPlugin,
   reactClassLifecycleMethodsPlugin,
   reactClassStatePlugin,
-  reactDefaultPropsPlugin,
+  // reactDefaultPropsPlugin,
   reactPropsPlugin,
   reactShapePlugin,
   stripTSIgnorePlugin,
@@ -36,7 +36,7 @@ const availablePlugins = [
   memberAccessibilityPlugin,
   reactClassLifecycleMethodsPlugin,
   reactClassStatePlugin,
-  reactDefaultPropsPlugin,
+  // reactDefaultPropsPlugin,
   reactPropsPlugin,
   reactShapePlugin,
   stripTSIgnorePlugin,
@@ -148,7 +148,7 @@ yargs
           });
         }
       } else {
-        const useDefaultPropsHelper = args.useDefaultPropsHelper === 'true';
+        // const useDefaultPropsHelper = args.useDefaultPropsHelper === 'true';
 
         const { defaultAccessibility, privateRegex, protectedRegex, publicRegex } = args;
 
@@ -162,9 +162,9 @@ yargs
           })
           .addPlugin(reactClassStatePlugin, { anyAlias })
           .addPlugin(reactClassLifecycleMethodsPlugin, { force: true })
-          .addPlugin(reactDefaultPropsPlugin, {
-            useDefaultPropsHelper,
-          })
+          // .addPlugin(reactDefaultPropsPlugin, {
+          //   useDefaultPropsHelper,
+          // })
           .addPlugin(reactShapePlugin, {
             anyAlias,
             anyFunctionAlias,
