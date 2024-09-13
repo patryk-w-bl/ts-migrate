@@ -1,5 +1,6 @@
 {
   "name": "@patryk-w-bl/ts-migrate-plugins",
+  "private": false,
   "version": "0.1.65",
   "description": "Set of codemods, which are doing transformation of js/jsx to ts/tsx",
   "main": "build/src/index.js",
@@ -70,5 +71,9 @@
     "@ts-morph/bootstrap": "^0.16.0",
     "@types/json-schema": "^7.0.7",
     "jest": "26.6.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

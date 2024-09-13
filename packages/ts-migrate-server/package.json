@@ -1,5 +1,6 @@
 {
   "name": "@patryk-w-bl/ts-migrate-server",
+  "private": false,
   "version": "0.1.64",
   "description": "A package that contains the main migration runner and spawns a TSServer process",
   "main": "build/src/index.js",
@@ -64,5 +65,9 @@
     "typescript": "4.7.2",
     "updatable-log": "^0.2.0"
   },
-  "gitHead": "7acf6067f15c9bb367cda9c47fcfb4203dcc54f3"
+  "gitHead": "7acf6067f15c9bb367cda9c47fcfb4203dcc54f3",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
