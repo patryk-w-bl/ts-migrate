@@ -1,7 +1,7 @@
 {
   "name": "@patryk-w-bl/ts-migrate-server",
   "private": false,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A package that contains the main migration runner and spawns a TSServer process",
   "main": "build/src/index.js",
   "directories": {
