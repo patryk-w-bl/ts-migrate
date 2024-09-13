@@ -1,4 +1,4 @@
-import { PluginOptionsError } from 'ts-migrate-server';
+import { PluginOptionsError } from '@patryk-w-bl/ts-migrate-server';
 import { mockPluginParams } from '../test-utils';
 import memberAccessibilityPlugin from '../../src/plugins/member-accessibility';
 

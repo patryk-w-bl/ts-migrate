@@ -1,4 +1,4 @@
-import { Plugin } from 'ts-migrate-server';
+import { Plugin } from '@patryk-w-bl/ts-migrate-server';
 
 type Options = {};
 
