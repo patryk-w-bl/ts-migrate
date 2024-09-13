@@ -1,5 +1,5 @@
 {
-  "name": "ts-migrate-server",
+  "name": "@patryk-w-bl/ts-migrate-server",
   "version": "0.1.64",
   "description": "A package that contains the main migration runner and spawns a TSServer process",
   "main": "build/src/index.js",
@@ -21,11 +21,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/airbnb/ts-migrate.git",
+    "url": "https://github.com/patryk-w-bl/ts-migrate.git",
     "directory": "packages/ts-migrate-server"
   },
   "bugs": {
-    "url": "https://github.com/airbnb/ts-migrate/issues"
+    "url": "https://github.com/patryk-w-bl/ts-migrate/issues"
   },
   "scripts": {
     "test": "jest --config jest-config.json",
@@ -56,7 +56,7 @@
       "url": "https://github.com/lencioni"
     }
   ],
-  "homepage": "https://github.com/airbnb/ts-migrate#readme",
+  "homepage": "https://github.com/patryk-w-bl/ts-migrate#readme",
   "license": "MIT",
   "dependencies": {
     "@ts-morph/bootstrap": "^0.16.0",

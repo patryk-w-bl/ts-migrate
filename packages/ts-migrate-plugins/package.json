@@ -1,5 +1,5 @@
 {
-  "name": "ts-migrate-plugins",
+  "name": "@patryk-w-bl/ts-migrate-plugins",
   "version": "0.1.65",
   "description": "Set of codemods, which are doing transformation of js/jsx to ts/tsx",
   "main": "build/src/index.js",
@@ -21,11 +21,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/airbnb/ts-migrate.git",
+    "url": "https://github.com/patryk-w-bl/ts-migrate.git",
     "directory": "packages/ts-migrate-plugins"
   },
   "bugs": {
-    "url": "https://github.com/airbnb/ts-migrate/issues"
+    "url": "https://github.com/patryk-w-bl/ts-migrate/issues"
   },
   "scripts": {
     "test": "jest --config jest-config.json",
@@ -56,7 +56,7 @@
       "url": "https://github.com/lencioni"
     }
   ],
-  "homepage": "https://github.com/airbnb/ts-migrate#readme",
+  "homepage": "https://github.com/patryk-w-bl/ts-migrate#readme",
   "license": "MIT",
   "dependencies": {
     "eslint": "^7.14.0",
