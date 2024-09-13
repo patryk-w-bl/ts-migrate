@@ -1,7 +1,7 @@
 {
   "name": "@patryk-w-bl/ts-migrate",
   "private": false,
-  "version": "0.1.66",
+  "version": "0.2.0",
   "description": "A tool for migrating frontend application from JavaScript to TypeScript",
   "directories": {
     "test": "tests"
