@@ -1,13 +1,13 @@
 {
-  "name": "ts-migrate",
+  "name": "@patryk-w-bl/ts-migrate",
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/airbnb/ts-migrate.git",
+    "url": "https://github.com/patryk-w-bl/ts-migrate.git",
     "directory": "packages/ts-migrate-server"
   },
   "bugs": {
-    "url": "https://github.com/airbnb/ts-migrate/issues"
+    "url": "https://github.com/patryk-w-bl/ts-migrate/issues"
   },
   "private": true,
   "description": "ts-migrate monorepo",
@@ -33,7 +33,6 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",
-    
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^7.21.5",

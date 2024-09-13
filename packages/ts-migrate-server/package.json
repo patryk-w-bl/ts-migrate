@@ -1,5 +1,6 @@
 {
-  "name": "ts-migrate-server",
+  "name": "@patryk-w-bl/ts-migrate-server",
+  "private": false,
   "version": "0.2.0",
   "description": "A package that contains the main migration runner and spawns a TSServer process",
   "main": "build/src/index.js",
@@ -21,11 +22,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/airbnb/ts-migrate.git",
+    "url": "https://github.com/patryk-w-bl/ts-migrate.git",
     "directory": "packages/ts-migrate-server"
   },
   "bugs": {
-    "url": "https://github.com/airbnb/ts-migrate/issues"
+    "url": "https://github.com/patryk-w-bl/ts-migrate/issues"
   },
   "scripts": {
     "test": "jest --config jest-config.json",
@@ -56,7 +57,7 @@
       "url": "https://github.com/lencioni"
     }
   ],
-  "homepage": "https://github.com/airbnb/ts-migrate#readme",
+  "homepage": "https://github.com/patryk-w-bl/ts-migrate#readme",
   "license": "MIT",
   "dependencies": {
     "@ts-morph/bootstrap": "^0.16.0",
@@ -64,5 +65,9 @@
     "typescript": "4.7.2",
     "updatable-log": "^0.2.0"
   },
-  "gitHead": "7acf6067f15c9bb367cda9c47fcfb4203dcc54f3"
+  "gitHead": "7acf6067f15c9bb367cda9c47fcfb4203dcc54f3",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
