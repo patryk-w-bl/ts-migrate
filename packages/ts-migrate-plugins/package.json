@@ -1,6 +1,6 @@
 {
   "name": "@patryk-w-bl/ts-migrate-plugins",
-  "version": "0.1.65",
+  "version": "0.2.0",
   "description": "Set of codemods, which are doing transformation of js/jsx to ts/tsx",
   "main": "build/src/index.js",
   "directories": {
